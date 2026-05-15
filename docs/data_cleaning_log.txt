@@ -1,0 +1,39 @@
+2026-05-15 07:40:53,294 | INFO | ============================================================
+2026-05-15 07:40:53,295 | INFO | STARTING DATA CLEANING PIPELINE
+2026-05-15 07:40:53,295 | INFO | Automotive Supply Chain Analytics Platform
+2026-05-15 07:40:53,295 | INFO | ============================================================
+2026-05-15 07:40:53,297 | INFO | Loaded suppliers.csv: 50 rows, 15 columns
+2026-05-15 07:40:53,301 | INFO | Cleaning suppliers table...
+2026-05-15 07:40:53,309 | INFO | Suppliers cleaned. Risk tiers: {'Medium Risk': 30, 'High Risk': 11, 'Low Risk': 9}
+2026-05-15 07:40:53,314 | INFO | Saved processed file: suppliers_clean.csv (50 rows)
+2026-05-15 07:40:53,465 | INFO | Loaded shipments.csv: 52,000 rows, 20 columns
+2026-05-15 07:40:53,601 | INFO | Cleaning shipments table...
+2026-05-15 07:40:53,919 | INFO | Shipments cleaned. On-Time Delivery: 87.4%
+2026-05-15 07:40:54,870 | INFO | Saved processed file: shipments_clean.csv (52,000 rows)
+2026-05-15 07:40:54,918 | INFO | Loaded inventory.csv: 30,900 rows, 12 columns
+2026-05-15 07:40:54,958 | INFO | Cleaning inventory table...
+2026-05-15 07:40:55,362 | INFO | Inventory cleaned. Status distribution: {'Healthy': 18131, 'CRITICAL - Below Safety Stock': 8526, 'WARNING - Reorder Required': 2295, 'OVERSTOCK - Review': 1948}
+2026-05-15 07:40:55,627 | INFO | Saved processed file: inventory_clean.csv (30,900 rows)
+2026-05-15 07:40:55,664 | INFO | Loaded production.csv: 20,970 rows, 13 columns
+2026-05-15 07:40:55,691 | INFO | Cleaning production table...
+2026-05-15 07:40:55,710 | INFO | Production cleaned. Average utilization: 64.6%
+2026-05-15 07:40:55,928 | INFO | Saved processed file: production_clean.csv (20,970 rows)
+2026-05-15 07:40:56,005 | INFO | Loaded sales_demand.csv: 32,000 rows, 15 columns
+2026-05-15 07:40:56,068 | INFO | Cleaning sales table...
+2026-05-15 07:40:56,277 | INFO | Sales cleaned. Total revenue: $18,924,986,407
+2026-05-15 07:40:56,656 | INFO | Saved processed file: sales_clean.csv (32,000 rows)
+2026-05-15 07:40:56,657 | INFO | Loaded warehouses.csv: 20 rows, 12 columns
+2026-05-15 07:40:56,661 | INFO | Cleaning warehouses table...
+2026-05-15 07:40:56,663 | INFO | Warehouses cleaned.
+2026-05-15 07:40:56,667 | INFO | Saved processed file: warehouses_clean.csv (20 rows)
+2026-05-15 07:40:56,668 | INFO | Loaded plants.csv: 15 rows, 11 columns
+2026-05-15 07:40:56,672 | INFO | Saved processed file: plants_clean.csv (15 rows)
+2026-05-15 07:40:56,673 | INFO | Loaded products.csv: 30 rows, 7 columns
+2026-05-15 07:40:56,676 | INFO | Saved processed file: products_clean.csv (30 rows)
+2026-05-15 07:40:56,676 | INFO | Data quality report saved to docs/data_quality_report.txt
+2026-05-15 07:40:56,676 | INFO | ============================================================
+2026-05-15 07:40:56,676 | INFO | CLEANING PIPELINE COMPLETE
+2026-05-15 07:40:56,676 | INFO | Tables processed: ['suppliers', 'shipments', 'inventory', 'production', 'sales', 'warehouses', 'plants', 'products']
+2026-05-15 07:40:56,676 | INFO | Total rows processed: 135,985
+2026-05-15 07:40:56,676 | INFO | Processed files saved to: data/processed/
+2026-05-15 07:40:56,676 | INFO | ============================================================
