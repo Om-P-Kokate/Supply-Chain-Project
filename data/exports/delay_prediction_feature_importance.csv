@@ -1,0 +1,11 @@
+feature,importance
+supplier_risk_score,0.40776908
+delivery_performance_pct,0.10642841
+defect_rate_pct,0.07922003
+ship_month,0.075700015
+distance_miles,0.07217134
+shipment_weight_lbs,0.06889686
+is_winter,0.06641802
+quantity_shipped,0.066387236
+transport_mode_encoded,0.057008963
+is_q4,0.0
