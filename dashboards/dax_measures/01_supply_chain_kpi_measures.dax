@@ -1,0 +1,956 @@
+// ============================================================
+// FILE: 01_supply_chain_kpi_measures.dax
+// PROJECT: Automotive Supply Chain Analytics - Power BI
+// DESCRIPTION: Comprehensive DAX measure library organized by category.
+//              All measures reference the data model defined in
+//              02_power_bi_data_model.md.
+// AUTHOR: Supply Chain Analytics Team
+// LAST UPDATED: 2026-05-15
+// ============================================================
+//
+// NAMING CONVENTION:
+//   [Category Prefix] Measure Name
+//   e.g., [SC] On-Time Delivery %   (SC = Supply Chain)
+//         [MFG] Plant Utilization %  (MFG = Manufacturing)
+//         [SLS] Forecast Accuracy %  (SLS = Sales)
+//         [TI] Revenue YTD           (TI = Time Intelligence)
+//         [ALT] Supplier Risk Status (ALT = Alert / Conditional)
+//
+// HOW TO IMPORT:
+//   In Power BI Desktop, open the DAX editor for a new measure,
+//   paste each block below, and confirm. Alternatively, use
+//   Tabular Editor 2/3 to bulk-import all measures at once.
+// ============================================================
+
+
+// ============================================================
+// SECTION 1: SUPPLY CHAIN KPIs
+// ============================================================
+
+// ------------------------------------------------------------
+// MEASURE 1: On-Time Delivery %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The percentage of shipments that arrived at or before their
+//   scheduled delivery date (i.e., delay_days <= 0).
+//
+// WHY IT MATTERS:
+//   On-Time Delivery (OTD) is the primary metric for evaluating
+//   carrier and supplier performance. A low OTD directly causes
+//   production line stoppages, customer dissatisfaction, and
+//   expediting costs.
+//
+// BUSINESS INTERPRETATION:
+//   > 95%  = Industry best practice (Tier 1 Automotive)
+//   90-95% = Acceptable; investigate recurring late suppliers
+//   < 90%  = Critical; escalate to supplier management
+//
+// HOW TO USE IN DASHBOARD:
+//   Place as a KPI card on Executive Overview (Dashboard 1).
+//   Use supplier slicer on Dashboard 2 to isolate underperformers.
+//   Set conditional formatting: green >= 95, amber 90-94, red < 90.
+// ------------------------------------------------------------
+
+[SC] On-Time Delivery % =
+DIVIDE(
+    CALCULATE(
+        COUNTROWS( fact_shipments ),
+        fact_shipments[delay_days] <= 0
+    ),
+    COUNTROWS( fact_shipments ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 2: Inventory Turnover
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   How many times the company sells through its average inventory
+//   during a period. Formula: COGS / Average Inventory Value.
+//
+// WHY IT MATTERS:
+//   High turnover signals efficient inventory management and
+//   reduces holding costs. Very high turnover may indicate
+//   stockout risk. Very low turnover indicates overstock or
+//   slow-moving parts (obsolescence risk in automotive).
+//
+// BUSINESS INTERPRETATION:
+//   Automotive OEM benchmark: 12-20x per year (monthly target ~1.5x).
+//   < 8x  = Overstocked / potential write-off risk
+//   8-12x = Monitor; optimize reorder points
+//   > 20x = Risk of stockout; review safety stock
+//
+// HOW TO USE IN DASHBOARD:
+//   Trend line on Inventory Dashboard (Dashboard 3).
+//   Slice by product category (raw material vs WIP vs finished).
+//   Drill through to warehouse-level detail.
+// ------------------------------------------------------------
+
+[SC] Inventory Turnover =
+VAR COGS =
+    SUMX(
+        fact_sales,
+        fact_sales[units_sold] * RELATED( dim_vehicle[unit_cost] )
+    )
+VAR AvgInventoryValue =
+    AVERAGEX(
+        VALUES( dim_date[date] ),
+        CALCULATE( SUM( fact_inventory[inventory_value] ) )
+    )
+RETURN
+    DIVIDE( COGS, AvgInventoryValue, 0 )
+
+
+// ------------------------------------------------------------
+// MEASURE 3: Fill Rate %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The percentage of ordered units that were actually delivered.
+//   Fill Rate % = Units Delivered / Units Ordered * 100.
+//
+// WHY IT MATTERS:
+//   A fill rate below 100% means customers or production lines
+//   received less than requested, potentially halting assembly.
+//   In automotive, even a 1% fill rate shortfall can shut down
+//   a production line costing $50,000+ per hour.
+//
+// BUSINESS INTERPRETATION:
+//   >= 98% = Target (Tier 1 automotive standard)
+//   95-98% = Acceptable with root-cause review
+//   < 95%  = Immediate escalation required
+//
+// HOW TO USE IN DASHBOARD:
+//   Use alongside Stockout Rate on Dashboard 3.
+//   Break down by supplier on Dashboard 2 to find chronic underdelivery.
+//   Tooltip on shipment map showing fill rate by region.
+// ------------------------------------------------------------
+
+[SC] Fill Rate % =
+DIVIDE(
+    SUM( fact_shipments[units_delivered] ),
+    SUM( fact_shipments[units_ordered] ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 4: Average Lead Time
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The arithmetic mean of lead_time_days across all shipments
+//   in the current filter context (supplier, region, date range).
+//
+// WHY IT MATTERS:
+//   Lead time drives safety stock calculations and production
+//   scheduling. Increasing lead times signal supplier capacity
+//   constraints or logistics disruptions before they become crises.
+//
+// BUSINESS INTERPRETATION:
+//   Benchmark varies by part category and sourcing geography.
+//   Domestic:       3-7 days target
+//   International: 14-30 days target
+//   Monitor week-over-week trend for early warning.
+//
+// HOW TO USE IN DASHBOARD:
+//   Trend line on Supplier Performance dashboard (Dashboard 2).
+//   Compare against contract SLA lead time (dim_supplier[sla_lead_time_days]).
+//   Alert when actual > SLA by more than 20%.
+// ------------------------------------------------------------
+
+[SC] Average Lead Time =
+AVERAGE( fact_shipments[lead_time_days] )
+
+
+// ------------------------------------------------------------
+// MEASURE 5: Supplier Reliability Score
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The average of supplier_reliability_score from dim_supplier,
+//   weighted by shipment count so high-volume suppliers have
+//   proportional influence on the aggregate.
+//
+// WHY IT MATTERS:
+//   A composite reliability score encapsulates on-time delivery,
+//   quality, and communication responsiveness into a single KPI
+//   for executive decision-making on supplier qualification.
+//
+// BUSINESS INTERPRETATION:
+//   Score is on a 0-100 scale.
+//   >= 85 = Preferred supplier
+//   70-84 = Approved with improvement plan
+//   < 70  = At-risk; dual-source or replace
+//
+// HOW TO USE IN DASHBOARD:
+//   Scatter plot on Dashboard 2: X = Reliability Score, Y = Volume.
+//   Color by risk tier. Size bubble by spend.
+// ------------------------------------------------------------
+
+[SC] Supplier Reliability Score =
+AVERAGEX(
+    VALUES( dim_supplier[supplier_id] ),
+    CALCULATE(
+        AVERAGE( dim_supplier[reliability_score] )
+    )
+)
+
+
+// ------------------------------------------------------------
+// MEASURE 6: Transportation Cost Ratio
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Total transportation spend as a percentage of total revenue.
+//   Helps quantify logistics efficiency relative to business scale.
+//
+// WHY IT MATTERS:
+//   Transportation is typically 5-10% of revenue in automotive
+//   supply chains. Increases may indicate carrier rate hikes,
+//   route inefficiencies, or emergency air freight usage.
+//
+// BUSINESS INTERPRETATION:
+//   < 5%   = Excellent; review for under-investment risk
+//   5-8%   = Industry standard
+//   8-10%  = Elevated; review modal mix (road vs rail vs air)
+//   > 10%  = Critical; renegotiate contracts, optimize routing
+//
+// HOW TO USE IN DASHBOARD:
+//   KPI card on Dashboard 4 (Logistics).
+//   Trend by month to spot seasonal spikes.
+//   Break down by transport mode for modal analysis.
+// ------------------------------------------------------------
+
+[SC] Transportation Cost Ratio =
+DIVIDE(
+    SUM( fact_shipments[transportation_cost] ),
+    SUM( fact_sales[revenue] ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 7: Perfect Order Rate
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Percentage of orders that were: (1) on time (delay_days <= 0),
+//   (2) defect-free (defect_units = 0), AND (3) correct quantity
+//   (units_delivered = units_ordered). All three conditions must
+//   be true simultaneously.
+//
+// WHY IT MATTERS:
+//   Perfect Order Rate is the gold standard of supply chain
+//   performance. It captures the end-to-end customer experience
+//   in a single number. A 95% OTD and 98% fill rate combined
+//   still yields a Perfect Order Rate below 93%.
+//
+// BUSINESS INTERPRETATION:
+//   > 90%  = World class
+//   80-90% = Good; identify the dominant failure mode
+//   < 80%  = Systemic issues; cross-functional review required
+//
+// HOW TO USE IN DASHBOARD:
+//   Executive KPI card (Dashboard 1).
+//   Waterfall chart decomposing imperfect orders by failure reason.
+// ------------------------------------------------------------
+
+[SC] Perfect Order Rate =
+VAR TotalOrders = COUNTROWS( fact_shipments )
+VAR PerfectOrders =
+    CALCULATE(
+        COUNTROWS( fact_shipments ),
+        fact_shipments[delay_days] <= 0,
+        fact_shipments[defect_units] = 0,
+        fact_shipments[units_delivered] = fact_shipments[units_ordered]
+    )
+RETURN
+    DIVIDE( PerfectOrders, TotalOrders, 0 ) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 8: Stockout Rate
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The proportion of warehouse-product combinations where current
+//   inventory falls below the defined safety stock level.
+//   Calculated as: warehouses below safety stock / total warehouse rows.
+//
+// WHY IT MATTERS:
+//   Stockouts in automotive stop production lines. Even a 1%
+//   stockout rate can mean dozens of critical parts are dangerously
+//   low. This metric drives replenishment priority decisions.
+//
+// BUSINESS INTERPRETATION:
+//   0%     = Ideal (all locations above safety stock)
+//   1-3%   = Monitor; review replenishment triggers
+//   > 3%   = Critical; initiate emergency procurement
+//
+// HOW TO USE IN DASHBOARD:
+//   Heatmap by warehouse on Dashboard 3.
+//   Alert badge when stockout rate > 3%.
+//   Drill through to see which SKUs and warehouses are affected.
+// ------------------------------------------------------------
+
+[SC] Stockout Rate =
+DIVIDE(
+    CALCULATE(
+        COUNTROWS( fact_inventory ),
+        fact_inventory[quantity_on_hand] < fact_inventory[safety_stock_level]
+    ),
+    COUNTROWS( fact_inventory ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 9: Days Inventory Outstanding (DIO)
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   How many days, on average, inventory sits before being used
+//   or sold. DIO = 365 / Inventory Turnover.
+//
+// WHY IT MATTERS:
+//   DIO is a component of the Cash Conversion Cycle. High DIO
+//   ties up working capital and increases obsolescence risk,
+//   which is especially costly for automotive parts with
+//   model-year lifecycle constraints.
+//
+// BUSINESS INTERPRETATION:
+//   < 20 days = Lean / risk of stockout
+//   20-45 days = Typical automotive target
+//   > 60 days = Overstocked; review procurement strategy
+//
+// HOW TO USE IN DASHBOARD:
+//   KPI card on Dashboard 3. Trend over time.
+//   Compare against Days Payable Outstanding for working capital view.
+// ------------------------------------------------------------
+
+[SC] Days Inventory Outstanding =
+VAR InvTurnover = [SC] Inventory Turnover
+RETURN
+    IF(
+        InvTurnover = 0,
+        BLANK(),
+        DIVIDE( 365, InvTurnover, BLANK() )
+    )
+
+
+// ------------------------------------------------------------
+// MEASURE 10: Supplier Risk Index
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   A weighted composite risk score per supplier combining:
+//     - financial_risk_score    (weight: 40%)
+//     - geopolitical_risk_score (weight: 30%)
+//     - quality_risk_score      (weight: 20%)
+//     - lead_time_risk_score    (weight: 10%)
+//   Higher score = higher risk (scale 0-100).
+//
+// WHY IT MATTERS:
+//   Single-source automotive suppliers represent existential risk.
+//   A composite index allows procurement teams to rank suppliers
+//   for dual-sourcing investment and contingency planning.
+//
+// BUSINESS INTERPRETATION:
+//   0-30  = Low risk
+//   31-60 = Medium risk; monitor quarterly
+//   61-100 = High risk; mitigation plan required
+//
+// HOW TO USE IN DASHBOARD:
+//   Risk matrix (bubble chart) on Dashboard 2.
+//   Table ranked by risk index for procurement review meetings.
+// ------------------------------------------------------------
+
+[SC] Supplier Risk Index =
+AVERAGEX(
+    VALUES( dim_supplier[supplier_id] ),
+    CALCULATE(
+        SUMX(
+            dim_supplier,
+            ( dim_supplier[financial_risk_score]    * 0.40 )
+            + ( dim_supplier[geopolitical_risk_score] * 0.30 )
+            + ( dim_supplier[quality_risk_score]      * 0.20 )
+            + ( dim_supplier[lead_time_risk_score]    * 0.10 )
+        )
+    )
+)
+
+
+// ============================================================
+// SECTION 2: MANUFACTURING KPIs
+// ============================================================
+
+// ------------------------------------------------------------
+// MEASURE 11: Plant Utilization %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   How much of a plant's planned production capacity was actually
+//   used. Plant Utilization % = Actual Production / Planned Production * 100.
+//
+// WHY IT MATTERS:
+//   Underutilization wastes fixed overhead. Overutilization
+//   accelerates equipment wear and increases defect risk.
+//   Automotive plants typically target 85-95% utilization.
+//
+// BUSINESS INTERPRETATION:
+//   < 70%  = Severe underutilization; review scheduling or demand signals
+//   70-85% = Below target; opportunity for optimization
+//   85-95% = Optimal range
+//   > 95%  = Overloaded; risk of quality degradation and maintenance deferral
+//
+// HOW TO USE IN DASHBOARD:
+//   Gauge chart per plant on Dashboard 6 (Manufacturing).
+//   Compare utilization vs defect rate to find the quality-capacity tradeoff.
+// ------------------------------------------------------------
+
+[MFG] Plant Utilization % =
+DIVIDE(
+    SUM( fact_production[actual_units_produced] ),
+    SUM( fact_production[planned_units] ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 12: Downtime %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Percentage of total available production hours lost to
+//   unplanned downtime. Downtime % = Downtime Hours / Total Available Hours * 100.
+//
+// WHY IT MATTERS:
+//   Unplanned downtime is the largest driver of production
+//   variance. In automotive, 1 hour of line downtime can cost
+//   $100,000+ in lost output. Tracking this drives proactive
+//   maintenance scheduling.
+//
+// BUSINESS INTERPRETATION:
+//   < 2%   = World class (TPM benchmark)
+//   2-5%   = Acceptable; review failure mode patterns
+//   > 5%   = Critical; immediate maintenance intervention
+//
+// HOW TO USE IN DASHBOARD:
+//   Trend line on Dashboard 6.
+//   Pareto chart of downtime reasons (equipment, material, staffing).
+//   Alert when weekly downtime % exceeds 5%.
+// ------------------------------------------------------------
+
+[MFG] Downtime % =
+DIVIDE(
+    SUM( fact_production[downtime_hours] ),
+    SUM( fact_production[available_hours] ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 13: Defect Rate %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Percentage of produced units that fail quality inspection.
+//   Defect Rate % = Defect Units / Total Units Produced * 100.
+//
+// WHY IT MATTERS:
+//   Defects drive warranty costs, recall risk, and rework expense.
+//   Automotive OEM quality targets are often expressed in PPM
+//   (parts per million), but % is more intuitive for dashboards.
+//
+// BUSINESS INTERPRETATION:
+//   < 0.1% = Excellent (< 1,000 PPM)
+//   0.1-0.5% = Acceptable
+//   > 0.5%   = Investigate; potential systemic quality issue
+//
+// HOW TO USE IN DASHBOARD:
+//   Line chart over time on Dashboard 6.
+//   Compare across plants and product lines.
+//   Correlate with supplier changes or raw material batch changes.
+// ------------------------------------------------------------
+
+[MFG] Defect Rate % =
+DIVIDE(
+    SUM( fact_production[defect_units] ),
+    SUM( fact_production[actual_units_produced] ),
+    0
+) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 14: OEE (Overall Equipment Effectiveness)
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   OEE = Availability * Performance * Quality (all as decimals).
+//   - Availability = (Available Hours - Downtime Hours) / Available Hours
+//   - Performance  = Actual Output / (Ideal Cycle Time * Operating Time)
+//                    Simplified here as Actual Units / Planned Units
+//   - Quality      = Good Units / Total Units
+//
+// WHY IT MATTERS:
+//   OEE is the international standard for measuring manufacturing
+//   productivity (ISO 22400). A world-class OEE is 85%. It exposes
+//   the three largest sources of production loss simultaneously.
+//
+// BUSINESS INTERPRETATION:
+//   > 85%  = World class
+//   65-85% = Typical; identify dominant loss category
+//   < 65%  = Significant losses; structured improvement needed
+//
+// HOW TO USE IN DASHBOARD:
+//   Waterfall chart decomposing OEE into Availability, Performance,
+//   and Quality losses on Dashboard 6.
+//   Trend line for OEE by plant and shift.
+// ------------------------------------------------------------
+
+[MFG] OEE % =
+VAR Availability =
+    DIVIDE(
+        SUM( fact_production[available_hours] ) - SUM( fact_production[downtime_hours] ),
+        SUM( fact_production[available_hours] ),
+        0
+    )
+VAR Performance =
+    DIVIDE(
+        SUM( fact_production[actual_units_produced] ),
+        SUM( fact_production[planned_units] ),
+        0
+    )
+VAR Quality =
+    DIVIDE(
+        SUM( fact_production[actual_units_produced] ) - SUM( fact_production[defect_units] ),
+        SUM( fact_production[actual_units_produced] ),
+        0
+    )
+RETURN
+    Availability * Performance * Quality * 100
+
+
+// ============================================================
+// SECTION 3: SALES KPIs
+// ============================================================
+
+// ------------------------------------------------------------
+// MEASURE 15: Forecast Accuracy %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   How close demand forecasts were to actual sales.
+//   Formula: (1 - ABS(Actual - Forecast) / Forecast) * 100
+//   Clamped to 0% minimum (cannot be negative).
+//
+// WHY IT MATTERS:
+//   Poor forecast accuracy leads to either overstock (high holding
+//   cost) or stockout (line stoppage). Improving forecast accuracy
+//   by 5% can reduce inventory by 10-15% in automotive supply chains.
+//
+// BUSINESS INTERPRETATION:
+//   > 90%  = Excellent
+//   80-90% = Acceptable; review outliers
+//   < 80%  = Forecasting model needs recalibration
+//
+// HOW TO USE IN DASHBOARD:
+//   Trend line on Dashboard 5 (Demand & Sales).
+//   Compare accuracy by vehicle model and region.
+//   Identify months with systematic over/under-forecast.
+// ------------------------------------------------------------
+
+[SLS] Forecast Accuracy % =
+VAR ActualSales  = SUM( fact_sales[units_sold] )
+VAR ForecastSales = SUM( fact_sales[units_forecasted] )
+VAR AbsError     = ABS( ActualSales - ForecastSales )
+RETURN
+    MAX(
+        0,
+        ( 1 - DIVIDE( AbsError, ForecastSales, 0 ) ) * 100
+    )
+
+
+// ------------------------------------------------------------
+// MEASURE 16: Revenue Growth %
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Period-over-period revenue growth percentage.
+//   (Current Revenue - Prior Period Revenue) / Prior Period Revenue * 100.
+//   Prior period is determined by the date filter context using
+//   DATEADD for month-over-month or year-over-year.
+//
+// WHY IT MATTERS:
+//   Revenue growth validates whether the supply chain is scaling
+//   to support business expansion. Negative growth signals demand
+//   contraction requiring supply chain rightsizing.
+//
+// BUSINESS INTERPRETATION:
+//   Context-dependent; compare against budget/target.
+//   Use alongside cost KPIs to determine profitable growth.
+//
+// HOW TO USE IN DASHBOARD:
+//   KPI card with variance arrow on Dashboard 1 and Dashboard 5.
+//   Swap prior period using a slicer (MoM / YoY / QoQ).
+// ------------------------------------------------------------
+
+[SLS] Revenue Growth % YoY =
+VAR CurrentRevenue =
+    SUM( fact_sales[revenue] )
+VAR PriorYearRevenue =
+    CALCULATE(
+        SUM( fact_sales[revenue] ),
+        DATEADD( dim_date[date], -1, YEAR )
+    )
+RETURN
+    DIVIDE(
+        CurrentRevenue - PriorYearRevenue,
+        PriorYearRevenue,
+        BLANK()
+    ) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 17: Regional Demand Growth
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Year-over-year unit demand growth for the region(s) in the
+//   current filter context. Expressed as a percentage change in
+//   units_sold rather than revenue to strip out price effects.
+//
+// WHY IT MATTERS:
+//   Regional growth rates inform safety stock levels, warehouse
+//   capacity planning, and distribution network design. A growing
+//   region may need a new distribution center; a shrinking one
+//   may need rationalization.
+//
+// BUSINESS INTERPRETATION:
+//   Compare against regional GDP and vehicle registration trends.
+//   Regions growing > 10% YoY warrant capacity investment review.
+//
+// HOW TO USE IN DASHBOARD:
+//   Choropleth map on Dashboard 5 shaded by demand growth %.
+//   Rank regions in a bar chart for executive comparison.
+// ------------------------------------------------------------
+
+[SLS] Regional Demand Growth % YoY =
+VAR CurrentUnits =
+    SUM( fact_sales[units_sold] )
+VAR PriorYearUnits =
+    CALCULATE(
+        SUM( fact_sales[units_sold] ),
+        DATEADD( dim_date[date], -1, YEAR )
+    )
+RETURN
+    DIVIDE(
+        CurrentUnits - PriorYearUnits,
+        PriorYearUnits,
+        BLANK()
+    ) * 100
+
+
+// ------------------------------------------------------------
+// MEASURE 18: Revenue per Unit
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Average selling price (revenue divided by units sold).
+//   Useful for tracking pricing realization and mix effects.
+//
+// WHY IT MATTERS:
+//   Revenue growth can be volume-driven or price-driven. Tracking
+//   revenue per unit isolates pricing power and detects mix shift
+//   toward lower-margin vehicle segments.
+//
+// BUSINESS INTERPRETATION:
+//   Compare against standard cost to estimate gross margin per unit.
+//   Declining revenue per unit may signal discounting or mix shift.
+//
+// HOW TO USE IN DASHBOARD:
+//   Secondary Y-axis on revenue trend chart on Dashboard 5.
+//   Break down by vehicle model / region.
+// ------------------------------------------------------------
+
+[SLS] Revenue per Unit =
+DIVIDE(
+    SUM( fact_sales[revenue] ),
+    SUM( fact_sales[units_sold] ),
+    BLANK()
+)
+
+
+// ============================================================
+// SECTION 4: TIME INTELLIGENCE MEASURES
+// ============================================================
+// NOTE: All time intelligence measures require a continuous,
+// gap-free dim_date table marked as a Date Table in Power BI.
+// See 02_power_bi_data_model.md for setup instructions.
+// ============================================================
+
+// ------------------------------------------------------------
+// MEASURE 19: Revenue MTD
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Cumulative revenue from the first day of the current month
+//   to the last date in the current filter context.
+//
+// WHY IT MATTERS:
+//   MTD allows mid-month progress tracking against monthly
+//   revenue targets, enabling early course correction.
+//
+// HOW TO USE IN DASHBOARD:
+//   KPI card on Dashboard 1 with a progress bar vs monthly budget.
+//   Bullet chart comparing MTD vs MTD prior year.
+// ------------------------------------------------------------
+
+[TI] Revenue MTD =
+CALCULATE(
+    SUM( fact_sales[revenue] ),
+    DATESMTD( dim_date[date] )
+)
+
+
+// ------------------------------------------------------------
+// MEASURE 20: Revenue YTD
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Cumulative revenue from January 1 of the current year
+//   to the last date in the current filter context.
+//
+// WHY IT MATTERS:
+//   YTD tracks annual target attainment. Essential for executive
+//   reporting and board-level performance discussions.
+//
+// HOW TO USE IN DASHBOARD:
+//   Primary KPI card on Dashboard 1.
+//   Annotate with annual target line on area chart.
+// ------------------------------------------------------------
+
+[TI] Revenue YTD =
+CALCULATE(
+    SUM( fact_sales[revenue] ),
+    DATESYTD( dim_date[date] )
+)
+
+
+// ------------------------------------------------------------
+// MEASURE 21: Revenue vs Prior Year
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   The absolute dollar variance between current period revenue
+//   and the same period in the prior year. Positive = growth.
+//
+// WHY IT MATTERS:
+//   Absolute variance gives CFOs and executives the dollar
+//   magnitude of growth/decline, complementing the % growth measure.
+//
+// HOW TO USE IN DASHBOARD:
+//   Variance column in summary tables.
+//   Waterfall chart showing year-over-year bridge on Dashboard 1.
+// ------------------------------------------------------------
+
+[TI] Revenue vs Prior Year =
+VAR CurrentRevenue = SUM( fact_sales[revenue] )
+VAR PriorYearRevenue =
+    CALCULATE(
+        SUM( fact_sales[revenue] ),
+        SAMEPERIODLASTYEAR( dim_date[date] )
+    )
+RETURN
+    CurrentRevenue - PriorYearRevenue
+
+
+// ------------------------------------------------------------
+// MEASURE 22: On-Time Delivery % Rolling 12 Months
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   A 12-month trailing average of On-Time Delivery %, smoothing
+//   seasonal spikes and showing the underlying performance trend.
+//
+// WHY IT MATTERS:
+//   Point-in-time OTD can be noisy. A rolling 12-month view
+//   reveals structural improvement or decline in supplier
+//   performance that single-month views can obscure.
+//
+// HOW TO USE IN DASHBOARD:
+//   Line chart on Dashboard 2 overlaid with monthly OTD bars.
+//   Used in supplier scorecards to determine contract renewals.
+// ------------------------------------------------------------
+
+[TI] On-Time Delivery % Rolling 12M =
+CALCULATE(
+    [SC] On-Time Delivery %,
+    DATESINPERIOD(
+        dim_date[date],
+        LASTDATE( dim_date[date] ),
+        -12,
+        MONTH
+    )
+)
+
+
+// ------------------------------------------------------------
+// MEASURE 23: Inventory Value MoM Change
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Month-over-month change in total inventory value (in currency).
+//   Positive = inventory build-up; negative = drawdown.
+//
+// WHY IT MATTERS:
+//   Rapid inventory build-up consumes working capital. A drawdown
+//   may signal healthy sell-through or dangerous depletion.
+//   Finance teams use this to forecast working capital requirements.
+//
+// HOW TO USE IN DASHBOARD:
+//   Waterfall or bar chart on Dashboard 3.
+//   Color: positive values in amber (inventory risk), negative in green.
+// ------------------------------------------------------------
+
+[TI] Inventory Value MoM Change =
+VAR CurrentInventory =
+    SUM( fact_inventory[inventory_value] )
+VAR PriorMonthInventory =
+    CALCULATE(
+        SUM( fact_inventory[inventory_value] ),
+        DATEADD( dim_date[date], -1, MONTH )
+    )
+RETURN
+    CurrentInventory - PriorMonthInventory
+
+
+// ============================================================
+// SECTION 5: CONDITIONAL / ALERT MEASURES
+// ============================================================
+
+// ------------------------------------------------------------
+// MEASURE 24: Supplier Risk Status
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Returns a text label ("High Risk", "Medium Risk", "Low Risk")
+//   based on the [SC] Supplier Risk Index score.
+//   High:   Score > 60
+//   Medium: Score 31-60
+//   Low:    Score 0-30
+//
+// WHY IT MATTERS:
+//   Text labels enable conditional formatting icons and table
+//   color coding in Power BI without requiring users to interpret
+//   raw numbers.
+//
+// HOW TO USE IN DASHBOARD:
+//   Status column in supplier table on Dashboard 2.
+//   Use with Power BI conditional formatting to show red/amber/green.
+//   Filter page to show only "High Risk" suppliers for action list.
+// ------------------------------------------------------------
+
+[ALT] Supplier Risk Status =
+VAR RiskScore = [SC] Supplier Risk Index
+RETURN
+    SWITCH(
+        TRUE(),
+        RiskScore > 60, "High Risk",
+        RiskScore > 30, "Medium Risk",
+        RiskScore >= 0, "Low Risk",
+        "Unknown"
+    )
+
+
+// ------------------------------------------------------------
+// MEASURE 25: Stockout Alert
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Returns a severity label based on days of supply remaining
+//   (quantity_on_hand / average_daily_demand).
+//   CRITICAL: <= 3 days of supply
+//   WARNING:  4-7 days of supply
+//   OK:       > 7 days of supply
+//
+// WHY IT MATTERS:
+//   A simple "days of supply" threshold translates inventory
+//   levels into actionable urgency for warehouse managers and
+//   procurement teams without needing to understand raw stock numbers.
+//
+// HOW TO USE IN DASHBOARD:
+//   Alert badge column in inventory table on Dashboard 3.
+//   Filter to CRITICAL items for daily expediting review.
+//   Push CRITICAL items to email alert via Power Automate.
+// ------------------------------------------------------------
+
+[ALT] Stockout Alert =
+VAR DaysOfSupply =
+    DIVIDE(
+        SUM( fact_inventory[quantity_on_hand] ),
+        AVERAGE( fact_inventory[average_daily_demand] ),
+        BLANK()
+    )
+RETURN
+    SWITCH(
+        TRUE(),
+        ISBLANK( DaysOfSupply ),     "No Data",
+        DaysOfSupply <= 3,           "CRITICAL",
+        DaysOfSupply <= 7,           "WARNING",
+                                     "OK"
+    )
+
+
+// ------------------------------------------------------------
+// MEASURE 26: Delivery Performance Status
+// ------------------------------------------------------------
+// WHAT IT CALCULATES:
+//   Returns a text label for the current On-Time Delivery %:
+//   "On Track"    : OTD >= 95%
+//   "At Risk"     : OTD 90-94%
+//   "Off Track"   : OTD < 90%
+//
+// WHY IT MATTERS:
+//   Provides a quick health status for delivery performance that
+//   can be used in slicer filters, conditional formatting, and
+//   executive summary cards without number interpretation.
+//
+// HOW TO USE IN DASHBOARD:
+//   Status icon (checkmark / warning / X) on Dashboard 1 KPI card.
+//   Table column on Dashboard 4 (Logistics) by carrier/route.
+//   Use as a page-level filter in bookmark navigation.
+// ------------------------------------------------------------
+
+[ALT] Delivery Performance Status =
+VAR OTD = [SC] On-Time Delivery %
+RETURN
+    SWITCH(
+        TRUE(),
+        OTD >= 95, "On Track",
+        OTD >= 90, "At Risk",
+        OTD >= 0,  "Off Track",
+        "No Data"
+    )
+
+
+// ============================================================
+// END OF FILE: 01_supply_chain_kpi_measures.dax
+// ============================================================
+// QUICK REFERENCE INDEX:
+//
+// SUPPLY CHAIN KPIs:
+//   [SC] On-Time Delivery %          (Measure 1)
+//   [SC] Inventory Turnover          (Measure 2)
+//   [SC] Fill Rate %                 (Measure 3)
+//   [SC] Average Lead Time           (Measure 4)
+//   [SC] Supplier Reliability Score  (Measure 5)
+//   [SC] Transportation Cost Ratio   (Measure 6)
+//   [SC] Perfect Order Rate          (Measure 7)
+//   [SC] Stockout Rate               (Measure 8)
+//   [SC] Days Inventory Outstanding  (Measure 9)
+//   [SC] Supplier Risk Index         (Measure 10)
+//
+// MANUFACTURING KPIs:
+//   [MFG] Plant Utilization %        (Measure 11)
+//   [MFG] Downtime %                 (Measure 12)
+//   [MFG] Defect Rate %              (Measure 13)
+//   [MFG] OEE %                      (Measure 14)
+//
+// SALES KPIs:
+//   [SLS] Forecast Accuracy %        (Measure 15)
+//   [SLS] Revenue Growth % YoY       (Measure 16)
+//   [SLS] Regional Demand Growth % YoY (Measure 17)
+//   [SLS] Revenue per Unit           (Measure 18)
+//
+// TIME INTELLIGENCE:
+//   [TI] Revenue MTD                           (Measure 19)
+//   [TI] Revenue YTD                           (Measure 20)
+//   [TI] Revenue vs Prior Year                 (Measure 21)
+//   [TI] On-Time Delivery % Rolling 12M        (Measure 22)
+//   [TI] Inventory Value MoM Change            (Measure 23)
+//
+// CONDITIONAL / ALERT:
+//   [ALT] Supplier Risk Status         (Measure 24)
+//   [ALT] Stockout Alert               (Measure 25)
+//   [ALT] Delivery Performance Status  (Measure 26)
+// ============================================================
