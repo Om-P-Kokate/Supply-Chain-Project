@@ -1,0 +1,31 @@
+product_id,product_name,product_category,unit_cost_usd,vehicle_compatibility,weight_lbs,is_critical_component
+PRD-001,Engine Block V6,Powertrain,2800.0,"F-150, Silverado, Tundra",85.0,True
+PRD-002,Engine Block V8,Powertrain,3400.0,"F-150, Silverado, Sierra",110.0,True
+PRD-003,Electric Motor (Rear),EV Powertrain,4200.0,"Model 3, Model Y, Lightning",95.0,True
+PRD-004,Battery Pack 75kWh,EV Powertrain,12500.0,"Model 3, Lightning, R1T",600.0,True
+PRD-005,Battery Pack 100kWh,EV Powertrain,18000.0,"Model S, Cybertruck, R1S",900.0,True
+PRD-006,Transmission (6-Speed Auto),Powertrain,1800.0,"F-150, Silverado, Camry",95.0,True
+PRD-007,Semiconductor Control Module,Electronics,450.0,All Models,1.2,True
+PRD-008,Infotainment System,Electronics,380.0,All Models,4.5,False
+PRD-009,ADAS Sensor Suite,Safety/Electronics,620.0,"Model Y, F-150, RAV4",3.8,True
+PRD-010,Airbag Module (Front),Safety,125.0,All Models,2.1,True
+PRD-011,Airbag Module (Side),Safety,95.0,All Models,1.4,True
+PRD-012,Seat Assembly (Front Pair),Interiors,780.0,All Models,45.0,False
+PRD-013,Dashboard Assembly,Interiors,420.0,All Models,18.0,False
+PRD-014,Wiring Harness (Main),Electrical,340.0,All Models,12.0,True
+PRD-015,Brake Caliper Set,Braking,85.0,All Models,8.5,False
+PRD-016,Brake Rotor Set,Braking,72.0,All Models,14.0,False
+PRD-017,Suspension Strut Set,Chassis,210.0,All Models,22.0,False
+PRD-018,Aluminum Wheel Set (4),Chassis,480.0,All Models,60.0,False
+PRD-019,Exhaust System,Powertrain,320.0,ICE Models,18.0,False
+PRD-020,Turbocharger,Powertrain,650.0,"F-150 EcoBoost, Silverado",12.0,True
+PRD-021,Catalytic Converter,Emissions,280.0,ICE Models,4.2,True
+PRD-022,Fuel Injector Set,Powertrain,195.0,ICE Models,1.8,False
+PRD-023,Power Steering Pump,Chassis,165.0,All Models,6.5,False
+PRD-024,Alternator,Electrical,145.0,ICE Models,9.0,False
+PRD-025,Radiator Assembly,Thermal,185.0,All Models,12.0,False
+PRD-026,AC Compressor,Thermal,220.0,All Models,8.0,False
+PRD-027,Door Panel Set,Body,390.0,All Models,35.0,False
+PRD-028,Bumper Assembly (Front),Body,240.0,All Models,18.0,False
+PRD-029,Headlight Assembly (Pair),Lighting,195.0,All Models,5.5,False
+PRD-030,Fastener Kit (1000-piece),Hardware,45.0,All Models,4.0,False
