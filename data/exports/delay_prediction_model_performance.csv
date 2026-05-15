@@ -1,0 +1,2 @@
+model_type,accuracy_pct,roc_auc_pct,training_samples,test_samples,features_used,positive_rate_pct
+XGBoost,87.38,63.3,41600,10400,10,12.61
