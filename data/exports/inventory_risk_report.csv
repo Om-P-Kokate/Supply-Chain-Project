@@ -1,0 +1,21 @@
+warehouse_id,total_sku_count,total_stock_value,avg_days_of_supply,items_below_safety_stock,items_below_reorder,critical_stockout_items,stockout_rate_pct,warehouse_risk_level,warehouse_name,region,state,storage_capacity_units,current_utilization_pct
+WH-01,15,399211055.0,44.00666666666667,1,1,0,6.67,Healthy,Ford Detroit Dc,Midwest,Michigan,174592,69.5
+WH-02,15,215155230.0,28.14666666666667,4,4,0,26.67,HIGH RISK,Gm Midwest Parts Hub,Midwest,Ohio,119483,62.7
+WH-03,15,388965155.0,46.9,0,0,0,0.0,Healthy,Toyota Southeast Dc,Southeast,Tennessee,160923,93.7
+WH-04,15,209050250.0,20.68,3,3,0,20.0,MEDIUM RISK,Tesla Gigafactory Warehouse,Southwest,Texas,69497,84.4
+WH-05,15,127880770.0,33.32666666666667,4,4,0,26.67,HIGH RISK,Bmw Spartanburg Parts Hub,Southeast,South Carolina,154593,66.1
+WH-06,15,101065795.0,10.04,7,7,0,46.67,CRITICAL,Ford Kentucky Cross-Dock,Southeast,Kentucky,39478,68.8
+WH-07,15,121195835.0,18.066666666666666,1,4,0,6.67,HIGH RISK,Gm Alabama Buffer Store,Southeast,Alabama,45860,85.0
+WH-08,15,32161660.0,5.760000000000001,6,9,0,40.0,CRITICAL,Rivian Normal Il Warehouse,Midwest,Indiana,24196,69.8
+WH-09,15,265797750.0,44.38666666666666,1,1,0,6.67,Healthy,Toyota Georgetown Dc,Southeast,Kentucky,195207,85.8
+WH-10,15,308032015.0,40.88666666666666,2,3,0,13.33,MEDIUM RISK,Ford Texas Regional Dc,Southwest,Texas,107728,81.4
+WH-11,15,147350395.0,30.38,3,5,0,20.0,HIGH RISK,Tesla Fremont Parts Hub,West,California,66389,68.7
+WH-12,15,11119915.0,3.433333333333333,10,14,0,66.67,CRITICAL,Gm Wentzville Cross-Dock,Midwest,Missouri,12208,86.5
+WH-13,15,129510715.0,16.78,3,4,0,20.0,HIGH RISK,Bmw Southeast Buffer,Southeast,Georgia,39287,64.1
+WH-14,15,254173545.0,35.36,2,2,0,13.33,MEDIUM RISK,Ford Southeast Dc,Southeast,Tennessee,123001,61.4
+WH-15,15,363983295.0,43.49333333333333,4,4,0,26.67,HIGH RISK,Toyota Texas Dc,Southwest,Texas,191356,84.6
+WH-16,15,408384100.0,36.77333333333333,1,2,0,6.67,Healthy,Gm Northeast Regional,Northeast,New York,173907,63.4
+WH-17,15,193418580.0,37.11333333333334,1,1,0,6.67,Healthy,Ford Michigan Hub,Midwest,Michigan,156708,76.6
+WH-18,15,142476970.0,8.073333333333332,3,4,0,20.0,HIGH RISK,Rivian Georgia Parts Hub,Southeast,Georgia,42704,75.2
+WH-19,15,40192955.0,9.346666666666666,8,10,0,53.33,CRITICAL,Gm Ohio Cross-Dock,Midwest,Ohio,23879,81.6
+WH-20,15,64002310.0,20.413333333333334,5,5,0,33.33,HIGH RISK,Bmw North Carolina Dc,Southeast,North Carolina,64200,61.6
