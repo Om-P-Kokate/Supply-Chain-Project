@@ -1,0 +1,13 @@
+forecast_date,forecasted_units,forecast_lower_bound,forecast_upper_bound,forecast_month,model_used
+2025-01-31,10730,9120,12339,Jan 2025,Linear Trend + Seasonal Adjustment
+2025-02-28,10719,9111,12326,Feb 2025,Linear Trend + Seasonal Adjustment
+2025-03-31,13026,11072,14980,Mar 2025,Linear Trend + Seasonal Adjustment
+2025-04-30,13744,11682,15805,Apr 2025,Linear Trend + Seasonal Adjustment
+2025-05-31,14624,12430,16818,May 2025,Linear Trend + Seasonal Adjustment
+2025-06-30,15383,13075,17690,Jun 2025,Linear Trend + Seasonal Adjustment
+2025-07-31,14215,12083,16347,Jul 2025,Linear Trend + Seasonal Adjustment
+2025-08-31,15276,12985,17568,Aug 2025,Linear Trend + Seasonal Adjustment
+2025-09-30,16057,13648,18465,Sep 2025,Linear Trend + Seasonal Adjustment
+2025-10-31,17174,14598,19751,Oct 2025,Linear Trend + Seasonal Adjustment
+2025-11-30,17837,15161,20512,Nov 2025,Linear Trend + Seasonal Adjustment
+2025-12-31,18512,15735,21288,Dec 2025,Linear Trend + Seasonal Adjustment
