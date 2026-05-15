@@ -1,6 +1,6 @@
 # Automotive Supply Chain Intelligence & Business Analytics Platform
 
-> **A portfolio-quality, enterprise-grade Supply Chain Control Tower built to solve
+> **Enterprise-grade Supply Chain Control Tower built to solve
 > real operational challenges faced by U.S. automotive manufacturers
 > including Ford, Tesla, General Motors, Toyota, Rivian, and BMW.**
 
@@ -366,33 +366,6 @@ From the 2022-2024 analysis, this platform identified:
 
 ---
 
-## INTERVIEW TALKING POINTS
-
-When explaining this project in an interview, focus on:
-
-**"What business problem does this solve?"**
-> "Automotive OEMs lose millions of dollars per day when assembly lines stop due to
-> missing parts, delayed shipments, or poor supplier performance. This platform gives
-> supply chain leadership real-time visibility into these risks through a Power BI
-> control tower — before problems become production shutdowns."
-
-**"What was your most interesting finding?"**
-> "The data showed 8 suppliers causing 68% of all delays — a textbook Pareto distribution.
-> The fix isn't complicated, but you can't prioritize without the visibility. That's
-> exactly what the supplier performance dashboard provides."
-
-**"Why Power BI over other tools?"**
-> "Power BI is the standard in automotive and manufacturing supply chain. DAX time
-> intelligence makes YoY comparisons trivial. The star schema I built ensures all
-> 26 DAX measures work correctly with time intelligence functions."
-
-**"How did you handle data quality?"**
-> "I built a dedicated cleaning pipeline that validates every calculated field against
-> source data, flags outliers, generates a data quality report, and adds derived columns
-> for analytics without touching the raw data. This mirrors real BI workflows."
-
----
-
 ## TECH STACK
 
 | Technology | Purpose | Where Used |
@@ -405,28 +378,7 @@ When explaining this project in an interview, focus on:
 | **NumPy** | Statistical calculations | Analytics and generation |
 | **XGBoost** | Shipment delay prediction | Forecasting script |
 | **Prophet** | Demand forecasting | Forecasting script |
-| **Faker** | Realistic synthetic data | Data generation |
 
----
-
-## DATA DISCLAIMER
-
-All data in this project is **100% synthetic** and generated using Python's
-Faker library and NumPy. No real supplier, company, or operational data was used.
-Company names (Ford, GM, Tesla, Toyota, Rivian, BMW) are used for realism
-in an educational context only.
-
----
-
-## PROJECT AUTHOR
-
-Built as a portfolio project demonstrating Supply Chain Analytics, Business Intelligence,
-and Automotive Operations domain expertise.
-
-**Project Type:** Portfolio / Educational
-**Industry Focus:** Automotive Supply Chain — United States
-**Analysis Period Simulated:** 2022-2024
-**Records Generated:** 135,985 rows across 8 tables
 
 ---
 
