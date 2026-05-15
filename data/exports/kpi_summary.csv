@@ -1,0 +1,2 @@
+on_time_delivery_pct,total_shipments,total_transportation_cost_usd,avg_delay_days,delayed_shipments_count,delayed_shipments_pct,total_inventory_value_usd,stockout_rate_pct,avg_days_of_supply,avg_supplier_reliability_score,high_risk_suppliers,suppliers_below_85_otd,avg_plant_utilization_pct,avg_defect_rate_pct,total_production_units,total_downtime_hours,total_revenue_usd,total_units_sold,avg_forecast_accuracy_pct,transportation_cost_ratio_pct
+87.39,52000,78050778.54,5.21,6558,12.61,3923128295.0,23.0,26.67,76.53,11,35,64.55,1.479,4697642,21326.2,18924986407.0,370417,79.64,0.41
