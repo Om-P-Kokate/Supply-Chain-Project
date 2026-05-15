@@ -1,0 +1,51 @@
+supplier_id,supplier_name,supplier_region,supplier_country,supplier_type,lead_time_days,defect_rate_pct,reliability_score,delivery_performance_pct,supplier_risk_score,annual_contract_value_usd,primary_component,years_in_contract,certification_status,contact_email
+SUP-001,Bosch Automotive,International - Europe,Germany,Tier-1,21,2.06,75.7,84.9,5.25,43224566.91,Electronics/Sensors,9,ISO 9001,johnsonjoshua@taylor.net
+SUP-002,Denso Corporation,International - Asia,Japan,Tier-1,29,2.27,73.7,81.6,4.92,49934104.91,HVAC/Thermal Systems,5,IATF 16949,garzaanthony@robinson.org
+SUP-003,Magna International,International - Canada/Mexico,Canada,Tier-1,8,0.77,78.0,85.5,3.36,154903959.21,Body & Chassis,3,IATF 16949 + ISO 14001,hoffmanjennifer@gardner.com
+SUP-004,BorgWarner,Northeast,USA,Tier-1,12,0.72,86.1,84.8,2.36,197368110.54,Powertrain,1,ISO 9001,helenpeterson@lewis.com
+SUP-005,Aptiv,International - Europe,Ireland,Tier-1,19,1.41,75.4,83.7,4.6,153848488.72,Electrical Systems,8,IATF 16949,jamesmichael@munoz-roman.info
+SUP-006,Lear Corporation,West,USA,Tier-1,11,1.12,90.4,88.5,2.1,112837360.97,Seating,18,ISO 9001,dudleynicholas@carter.com
+SUP-007,Delphi Technologies,International - Europe,UK,Tier-1,26,1.47,80.1,81.4,4.48,81369213.64,Engine Management,14,IATF 16949 + ISO 14001,janetwilliams@mejia.com
+SUP-008,Continental AG,International - Europe,Germany,Tier-1,28,3.83,57.3,75.1,8.67,230859187.58,Tires & Chassis,19,Uncertified,jamesshawn@martin-kelly.com
+SUP-009,ZF Friedrichshafen,International - Europe,Germany,Tier-1,31,1.64,73.9,82.7,4.33,208040689.74,Transmissions,6,ISO 9001,lynchgeorge@sanchez.net
+SUP-010,Valeo,International - Europe,France,Tier-1,41,0.73,84.2,89.1,2.48,201538260.28,Lighting Systems,9,ISO 14001,gabriellecameron@perez.com
+SUP-011,Faurecia,International - Europe,France,Tier-1,23,1.58,85.7,88.2,3.48,193961234.94,Interiors,11,IATF 16949,nadams@walter.biz
+SUP-012,Autoliv,International - Europe,Sweden,Tier-1,20,1.49,74.5,86.7,4.19,20571795.82,Safety Systems,13,ISO 9001,ithomas@mcgee.com
+SUP-013,Tenneco,Southwest,USA,Tier-1,4,0.2,95.7,94.4,1.34,222367121.93,Exhaust Systems,20,ISO 14001,zhurst@robinson-bright.net
+SUP-014,Sensata Technologies,International - Europe,Netherlands,Tier-2,30,1.95,78.2,84.2,4.94,28283221.28,Sensors,15,ISO 9001,ddavis@hernandez.biz
+SUP-015,Gentex Corporation,Midwest,USA,Tier-2,11,2.45,67.4,84.3,4.95,1758246.77,Mirrors & Vision,3,AS9100,cruzcaitlin@rice-maddox.com
+SUP-016,Modine Manufacturing,Southwest,USA,Tier-2,11,1.46,88.4,87.9,2.87,12839965.34,Thermal Management,12,IATF 16949 + ISO 14001,maldonadoamanda@mack-peterson.com
+SUP-017,Dorman Products,Southeast,USA,Tier-2,12,2.73,61.5,75.9,7.22,46520033.79,Replacement Parts,2,ISO 9001,amoore@liu.com
+SUP-018,Superior Industries,Southeast,USA,Tier-2,13,2.65,72.0,81.3,5.75,9735217.91,Aluminum Wheels,3,ISO 14001,harrellkenneth@romero.com
+SUP-019,Strattec Security,Midwest,USA,Tier-2,6,2.35,72.1,81.5,5.15,11782790.55,Locks & Keys,9,AS9100,georgetracy@hickman.com
+SUP-020,Shiloh Industries,Southwest,USA,Tier-2,10,2.68,57.5,78.4,6.91,11494336.62,Metal Stampings,12,IATF 16949,allenashley@miller.com
+SUP-021,Tower International,Southeast,USA,Tier-1,8,0.76,87.1,89.6,2.49,132103702.33,Metal Stampings,3,ISO 14001,davidalvarez@martin.com
+SUP-022,Martinrea International,International - Canada/Mexico,Canada,Tier-1,10,1.06,92.0,87.7,1.59,78715185.91,Metal Stampings,8,IATF 16949 + ISO 14001,jenniferross@santos.com
+SUP-023,Plastic Omnium,International - Europe,France,Tier-1,24,2.57,76.5,84.1,4.59,40499243.66,Bumpers & Fuel Systems,13,AS9100,jeffreymorgan@spencer.com
+SUP-024,Gestamp,International - Europe,Spain,Tier-1,31,2.0,77.3,80.2,5.01,191596805.76,Body Components,8,IATF 16949 + ISO 14001,carlosjohnson@jones-young.info
+SUP-025,Nemak,International - Europe,Mexico,Tier-1,15,2.0,75.8,78.0,5.69,160214779.14,Aluminum Castings,8,ISO 9001,ambercummings@johnston.biz
+SUP-026,Linamar,International - Canada/Mexico,Canada,Tier-1,6,0.7,90.1,92.6,1.68,50697035.05,Drivetrain,13,ISO 14001,clintonhopkins@henderson-owens.com
+SUP-027,Trelleborg,International - Europe,Sweden,Tier-2,31,2.51,62.1,78.5,6.65,32436053.13,Sealing Solutions,7,ISO 9001,brownjessica@wright.net
+SUP-028,Parker Hannifin,Southwest,USA,Tier-2,12,2.05,72.9,80.2,5.8,7307286.74,Fluid Systems,16,IATF 16949,ltaylor@ford-baxter.com
+SUP-029,Eaton,International - Europe,Ireland,Tier-1,39,1.24,85.8,84.2,3.33,205219439.05,Power Management,5,AS9100,jmorton@williams.com
+SUP-030,Dana Incorporated,Southeast,USA,Tier-1,7,2.78,73.8,82.0,5.05,224817860.7,Axles & Drivetrains,18,IATF 16949,housemelinda@russell.com
+SUP-031,American Axle,Southwest,USA,Tier-1,11,1.59,79.3,83.9,3.39,182859141.32,Driveline Components,14,IATF 16949 + ISO 14001,kbarrera@smith-myers.info
+SUP-032,Methode Electronics,Northeast,USA,Tier-2,12,2.74,71.0,81.9,5.93,955254.06,Connectors,8,ISO 14001,rodney87@lee.com
+SUP-033,CTS Corporation,West,USA,Tier-2,5,1.96,78.4,82.3,5.44,32772082.35,Electronic Components,3,AS9100,adkinsbrian@woods.com
+SUP-034,Stoneridge,Midwest,USA,Tier-2,3,2.15,67.2,77.5,6.1,37451324.55,Electronic Systems,6,IATF 16949,yorkcasey@leonard.biz
+SUP-035,Dorman Products,Northeast,USA,Tier-2,13,2.7,70.2,82.7,6.45,5136901.01,Hardware & Fasteners,3,IATF 16949 + ISO 14001,davidashley@wheeler.org
+SUP-036,NN Inc,Northeast,USA,Tier-2,9,0.95,87.9,87.1,2.95,31741361.99,Precision Components,15,IATF 16949 + ISO 14001,sarah35@baker.com
+SUP-037,Koyo Bearings,International - Asia,Japan,Tier-2,30,3.04,66.6,84.1,6.52,10164527.9,Bearings,1,IATF 16949 + ISO 14001,wstewart@smith.org
+SUP-038,NSK Ltd,International - Asia,Japan,Tier-1,21,1.52,84.8,87.1,3.06,48392116.45,Steering Systems,9,IATF 16949 + ISO 14001,jonesjason@anderson-bailey.com
+SUP-039,JTEKT Corporation,International - Asia,Japan,Tier-1,35,1.88,80.6,84.5,4.16,241086894.39,Bearings & Driveshafts,10,ISO 9001,mikemoore@warner.net
+SUP-040,Hyundai Mobis,International - Asia,South Korea,Tier-1,41,1.76,84.0,84.8,3.82,82645891.26,Modules & Parts,15,IATF 16949,contrerasangela@garcia.com
+SUP-041,Hanon Systems,International - Asia,South Korea,Tier-1,14,1.55,76.4,83.7,4.82,144664986.67,Thermal Systems,17,ISO 14001,josephjacobs@cooper.net
+SUP-042,SL Corporation,International - Asia,South Korea,Tier-2,25,2.5,68.9,78.0,6.85,37168046.58,Lighting,4,IATF 16949 + ISO 14001,dking@walters.com
+SUP-043,Samvardhana Motherson,International - Asia,India,Tier-1,33,2.76,65.3,77.8,6.12,203293483.09,Wiring Harnesses,20,IATF 16949 + ISO 14001,cookdavid@martin-ramos.biz
+SUP-044,Minda Industries,International - Asia,India,Tier-2,26,2.86,65.3,79.3,6.96,25325056.59,Switches & Sensors,12,IATF 16949,rodriguezsierra@mckee.org
+SUP-045,Flex-N-Gate,West,USA,Tier-1,5,1.88,83.6,86.7,3.86,223051308.75,Bumpers & Lighting,1,IATF 16949 + ISO 14001,russellwilliams@nolan-flynn.com
+SUP-046,Showa Denko,International - Asia,Japan,Tier-2,34,1.46,76.6,81.4,4.77,2279142.55,Aluminum Products,1,AS9100,jason31@deleon-henson.biz
+SUP-047,Tokai Rika,International - Asia,Japan,Tier-2,21,3.43,52.2,70.0,9.97,2009762.37,Switches & Locks,10,Uncertified,sarayoung@cherry.biz
+SUP-048,Aisin Seiki,International - Asia,Japan,Tier-1,29,1.16,88.9,87.4,3.16,57876151.74,Drivetrain,8,ISO 9001,whitesandra@pham-shields.com
+SUP-049,Panasonic Automotive,International - Asia,Japan,Tier-1,19,1.42,83.1,85.2,3.4,137455604.79,Infotainment,16,ISO 9001,erik16@garrison.com
+SUP-050,Visteon Corporation,West,USA,Tier-1,4,2.27,74.8,83.3,5.05,84124335.87,Cockpit Electronics,5,IATF 16949,ybailey@walker.com
