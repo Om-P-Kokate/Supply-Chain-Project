@@ -1,0 +1,16 @@
+plant_id,plant_name,state,city,oem_company,plant_type,total_capacity_units_daily,workforce_size,year_established,latitude,longitude
+PLT-01,Ford Dearborn Truck Plant,Michigan,Dearborn,Ford,Truck Assembly,1412,10965,1986,42.3223,-83.1763
+PLT-02,Ford Kansas City Assembly,Missouri,Wentzville,Ford,Full Assembly,911,6036,1967,38.8114,-90.8529
+PLT-03,Ford Kentucky Truck Plant,Kentucky,Louisville,Ford,Truck Assembly,1194,9393,1993,38.2527,-85.7585
+PLT-04,GM Lordstown Complex,Ohio,Lordstown,GM,Full Assembly,943,7456,1966,41.1759,-80.8687
+PLT-05,GM Wentzville Assembly,Missouri,Wentzville,GM,Truck Assembly,1285,8789,1980,38.8114,-90.8529
+PLT-06,GM Fairfax Assembly,Kansas,Fairfax,GM,Full Assembly,877,7630,2006,39.1122,-94.6275
+PLT-07,Toyota Georgetown Plant,Kentucky,Georgetown,Toyota,Full Assembly,1363,4802,1958,38.2098,-84.5588
+PLT-08,Toyota San Antonio Plant,Texas,San Antonio,Toyota,Truck Assembly,1667,9428,1965,29.4241,-98.4936
+PLT-09,Toyota Spring Hill Plant,Tennessee,Spring Hill,Toyota,Full Assembly,895,5936,1965,35.7512,-86.93
+PLT-10,Tesla Gigafactory Texas,Texas,Austin,Tesla,EV Assembly,508,6978,2020,30.2672,-97.7431
+PLT-11,Tesla Fremont Factory,California,Fremont,Tesla,EV Assembly,409,6285,2017,37.5485,-121.9886
+PLT-12,Rivian Normal Plant,Indiana,Normal,Rivian,EV Assembly,384,6104,2017,40.5142,-88.9906
+PLT-13,BMW Spartanburg Plant,South Carolina,Spartanburg,BMW,Full Assembly,1199,6172,2005,34.9496,-81.9321
+PLT-14,GM Spring Hill Assembly,Tennessee,Spring Hill,GM,Full Assembly,1265,6336,1982,35.7512,-86.93
+PLT-15,Ford Chicago Assembly,Indiana,Lafayette,Ford,Full Assembly,1369,9422,2000,40.4167,-86.8753
