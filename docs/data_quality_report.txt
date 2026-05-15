@@ -1,0 +1,92 @@
+============================================================
+DATA QUALITY REPORT
+Generated: 2026-05-15 07:40:56
+Automotive Supply Chain Analytics Platform
+============================================================
+
+TABLE: suppliers (raw)
+  Rows: 50
+  Columns: 15
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: suppliers (cleaned)
+  Rows: 50
+  Columns: 18
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: shipments (raw)
+  Rows: 52,000
+  Columns: 20
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: shipments (cleaned)
+  Rows: 52,000
+  Columns: 29
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: inventory (raw)
+  Rows: 30,900
+  Columns: 12
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: inventory (cleaned)
+  Rows: 30,900
+  Columns: 18
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: production (raw)
+  Rows: 20,970
+  Columns: 13
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: production (cleaned)
+  Rows: 20,970
+  Columns: 20
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: sales (raw)
+  Rows: 32,000
+  Columns: 15
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: sales (cleaned)
+  Rows: 32,000
+  Columns: 22
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: warehouses (raw)
+  Rows: 20
+  Columns: 12
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: warehouses (cleaned)
+  Rows: 20
+  Columns: 13
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: plants
+  Rows: 15
+  Columns: 11
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TABLE: products
+  Rows: 30
+  Columns: 7
+  Duplicate rows: 0
+  Nulls: None found ✓
+
+TOTAL ROWS ACROSS ALL TABLES: 271,925
+============================================================
