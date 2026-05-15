@@ -1,0 +1,21 @@
+warehouse_id,warehouse_name,region,state,city,storage_capacity_units,current_utilization_pct,warehouse_type,manager_name,operating_cost_monthly_usd,latitude,longitude
+WH-01,Ford Detroit DC,Midwest,Michigan,Detroit,174592,69.5,Distribution Center,Margaret Miller,428315.17,42.3314,-83.0458
+WH-02,GM Midwest Parts Hub,Midwest,Ohio,Toledo,119483,62.7,Distribution Center,Charles Lee,303640.0,41.6639,-83.5552
+WH-03,Toyota Southeast DC,Southeast,Tennessee,Smyrna,160923,93.7,Distribution Center,Michael White,158872.76,35.9829,-86.5186
+WH-04,Tesla Gigafactory Warehouse,Southwest,Texas,Austin,69497,84.4,Manufacturing Support,Michael Anderson,222116.62,30.2672,-97.7431
+WH-05,BMW Spartanburg Parts Hub,Southeast,South Carolina,Spartanburg,154593,66.1,Distribution Center,Jennifer Martin,293133.53,34.9496,-81.9321
+WH-06,Ford Kentucky Cross-Dock,Southeast,Kentucky,Louisville,39478,68.8,Cross-Dock,Charles Martin,65643.7,38.2527,-85.7585
+WH-07,GM Alabama Buffer Store,Southeast,Alabama,Lincoln,45860,85.0,Buffer Storage,Karen Wilson,136891.73,33.5743,-86.1183
+WH-08,Rivian Normal IL Warehouse,Midwest,Indiana,Normal,24196,69.8,Manufacturing Support,Richard Johnson,192233.55,40.5142,-88.9906
+WH-09,Toyota Georgetown DC,Southeast,Kentucky,Georgetown,195207,85.8,Distribution Center,Karen Lopez,484202.85,38.2098,-84.5588
+WH-10,Ford Texas Regional DC,Southwest,Texas,Fort Worth,107728,81.4,Distribution Center,James Brown,344023.92,32.7555,-97.3308
+WH-11,Tesla Fremont Parts Hub,West,California,Fremont,66389,68.7,Manufacturing Support,Maria Wilson,151332.01,37.5485,-121.9886
+WH-12,GM Wentzville Cross-Dock,Midwest,Missouri,Wentzville,12208,86.5,Cross-Dock,Maria Taylor,85597.27,38.8114,-90.8529
+WH-13,BMW Southeast Buffer,Southeast,Georgia,Atlanta,39287,64.1,Buffer Storage,Charles Wilson,62015.09,33.749,-84.388
+WH-14,Ford Southeast DC,Southeast,Tennessee,Chattanooga,123001,61.4,Distribution Center,Nancy Davis,166100.92,35.0456,-85.3097
+WH-15,Toyota Texas DC,Southwest,Texas,San Antonio,191356,84.6,Distribution Center,David Lopez,449411.2,29.4241,-98.4936
+WH-16,GM Northeast Regional,Northeast,New York,Buffalo,173907,63.4,Distribution Center,Karen Jackson,315960.84,42.8864,-78.8784
+WH-17,Ford Michigan Hub,Midwest,Michigan,Lansing,156708,76.6,Distribution Center,Michael Jones,322065.56,42.7325,-84.5555
+WH-18,Rivian Georgia Parts Hub,Southeast,Georgia,Savannah,42704,75.2,Buffer Storage,Lisa Thomas,84248.26,32.0835,-81.0998
+WH-19,GM Ohio Cross-Dock,Midwest,Ohio,Marysville,23879,81.6,Cross-Dock,Lisa Martin,89850.47,40.2367,-83.3671
+WH-20,BMW North Carolina DC,Southeast,North Carolina,Charlotte,64200,61.6,Distribution Center,Linda Williams,372282.78,35.2271,-80.8431
